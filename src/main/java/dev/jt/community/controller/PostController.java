@@ -16,9 +16,7 @@ public class PostController {
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
     private final PostService postService;
 
-    public PostController(
-            @Autowired PostService postService
-    ) {
+    public PostController(@Autowired PostService postService){
         this.postService = postService;
     }
 
@@ -28,7 +26,7 @@ public class PostController {
             @RequestBody PostDto dto
     ){
         PostDto result = this.postService.create(boardId, dto);
-        return ResponseEntity.ok(result.passwordMasked());
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("{postId}")
@@ -37,28 +35,17 @@ public class PostController {
             @PathVariable("postId") Long postId
     ){
         PostDto postDto = this.postService.read(boardId, postId);
-        if(postDto == null){
-            return ResponseEntity.notFound().build();
-        }
-        else {
-            return ResponseEntity.ok(postDto.passwordMasked());
-        }
+        if (postDto == null) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(postDto);
     }
 
     @GetMapping
     public ResponseEntity<Collection<PostDto>> readPostAll(
-            @PathVariable("boardId") Long boardId
-    ){
+            @PathVariable("boardId") Long boardId){
         Collection<PostDto> postList = this.postService.readAll(boardId);
-        if (postList == null) {
-            return ResponseEntity.notFound().build();
-
-        }
-        else {
-            return ResponseEntity.ok(postList);
-        }
+        if (postList == null) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(postList);
     }
-
 
     @PutMapping("{postId}")
     public ResponseEntity<?> updatePost(
@@ -66,21 +53,18 @@ public class PostController {
             @PathVariable("postId") Long postId,
             @RequestBody PostDto dto
     ) {
-        if(!postService.update(boardId,postId,dto)) {
+        if (!postService.update(boardId, postId, dto))
             return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{postId}")
     public ResponseEntity<?> deletePost(
             @PathVariable("boardId") Long boardId,
-            @PathVariable("postId") Long postId,
-            @RequestParam("password") String password
-    ){
-        if(!postService.delete(boardId,postId,password)) {
+            @PathVariable("postId") Long postId
+    ) {
+        if (!postService.delete(boardId, postId))
             return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.noContent().build();
     }
 }

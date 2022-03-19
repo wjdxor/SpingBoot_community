@@ -4,25 +4,20 @@ public class PostDto {
     private Long id;
     private String title;
     private String content;
-    private String writer;
-    private String password;
-    private Long boardId;
+    private Long userId;
 
     public PostDto() {
     }
 
-    public PostDto(Long id,
-                   String title,
-                   String content,
-                   String writer,
-                   String password,
-                   Long boardId) {
+    public PostDto(
+            Long id,
+            String title,
+            String content,
+            Long userId) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.writer = writer;
-        this.password = password;
-        this.boardId = boardId;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -49,28 +44,12 @@ public class PostDto {
         this.content = content;
     }
 
-    public String getWriter() {
-        return writer;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getBoardId() {
-        return boardId;
-    }
-
-    public void setBoardId(Long boardId) {
-        this.boardId = boardId;
+    public void setUserId(Long boardId) {
+        this.userId = boardId;
     }
 
     @Override
@@ -79,22 +58,8 @@ public class PostDto {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", writer='" + writer + '\'' +
-                ", password='" + password + '\'' +
-                ", boardId=" + boardId +
+                ", boardId=" + userId +
                 '}';
     }
-
-    public PostDto passwordMasked() {
-        return new PostDto(
-                this.id,
-                this.title,
-                this.content,
-                this.writer,
-                "*****",
-                this.boardId
-        );
-    }
-
 }
 
